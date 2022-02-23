@@ -1,33 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script>
-        function meerderemanieren(){
-            console.log("hier staat iets");
-            // xmlhttprequest  // goed en oud
-            // ajax // via jquery // simple framework
-            // fetch // nieuw   stateless
-            let xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function(){    // http
-                if(this.readyState == 4){
-                    console.log(this.responseText);
-                    let onzeAanvraag = JSON.parse(this.responseText);
-                    document.getElementById("onsresultaat").innerHTML = onzeAanvraag.tijdstip;
-                }    
-            }
-            xhr.open("GET","http://localhost:8086/returntype", true);  // asynchroon
-            xhr.send();
-
-        }
-
+      function meerderemanieren() {
+        console.log("hier staat iets");
+        // xmlhttprequest  // goed en oud
+        // ajax // via jquery // simple framework
+        // fetch // nieuw   stateless
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          // http
+          if (this.readyState == 4) {
+            console.log(this.responseText);
+            let onzeAanvraag = JSON.parse(this.responseText);
+            document.getElementById("onsresultaat").innerHTML =
+              onzeAanvraag.tijdstip;
+          }
+        };
+        xhr.open("GET", "http://localhost:8086/returntype", true); // asynchroon
+        xhr.send();
+      }
     </script>
-</head>
-<body>
-    <button onclick="meerderemanieren()">klik hier</button>
-    <div id="onsresultaat"></div>
-</body>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+    <nav>
+      <ul>
+        <li>Home</li>
+        <li>About</li>
+        <li>Contact</li>
+      </ul>
+    </nav>
+    <main>
+      <button onclick="meerderemanieren()">klik hier</button>
+    </main>
+      <h5>Hello there</h5>
+      <ul>
+        <li>Address address 15</li>
+        <li>Postcode 334556</li>
+        <li>City</li>
+      </ul>
+      <h5>Contact</h5>
+      <ul>
+        <li>Email</li>
+        <li>Facebook</li>
+        <li>Twitter</li>
+        <li>Instagram</li>
+      </ul>
+    </footer>
+  </body>
 </html>
