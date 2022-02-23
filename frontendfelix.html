@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script>
+      url = 'http://localhost:8082';
       function meerderemanieren() {
         console.log("hier staat iets");
         // xmlhttprequest  // goed en oud
@@ -21,8 +22,39 @@
               onzeAanvraag.tijdstip;
           }
         };
-        xhr.open("GET", "http://localhost:8086/returntype", true); // asynchroon
+        xhr.open("GET", url+"/returntype", true); // asynchroon
         xhr.send();
+      }
+      function haalalleaop(){
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          if (this.readyState == 4) {
+            let alleaanbieders = JSON.parse(this.responseText);
+            let uitkomstString = "<table>";
+            for(let y = 0; y < alleaanbieders.length; y++){
+              console.log(alleaanbieders[y].naam);
+              uitkomstString += `<tr><td>${alleaanbieders[y].naam}</td><td>${alleaanbieders[y].email}</td><td><input type="button" onclick="verwijderen(${alleaanbieders[y].id})" value="verwijder"></td></tr>`;
+            }
+            uitkomstString += "</table>";
+            document.getElementById("delijst").innerHTML = uitkomstString;
+          }
+        };
+        xhr.open("GET", url+"/GetlistAanbieder", true); // asynchroon
+        xhr.send();       
+      }
+      function verwijderdieene(aid){
+        fetch(url+"/GetlistAanbieder")
+        .then(response => {
+          console.log(response.json())
+        })
+    .catch(error => {
+        // handle the error
+    });
+      }
+      function verwijderen(aanbiederid){
+        let xhr = new XMLHttpRequest();
+        xhr.open("DELETE", url+"/verwijderfelixvoorbeeld/"+aanbiederid, true); // asynchroon
+        xhr.send(); 
       }
     </script>
   </head>
@@ -37,6 +69,7 @@
     </nav>
     <main>
       <button onclick="meerderemanieren()">klik hier</button>
+      <div id="onsresultaat"></div>
     </main>
       <h5>Hello there</h5>
       <ul>
@@ -52,5 +85,12 @@
         <li>Instagram</li>
       </ul>
     </footer>
+    <input type="button" onclick="haalalleaop()" value="Haal alle aanbieders op">
+    <div id="delijst">
+
+
+
+    </div>
+<input onclick="verwijderen()" value="verwijderen" type="button">
   </body>
 </html>
