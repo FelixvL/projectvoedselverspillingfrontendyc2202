@@ -33,7 +33,7 @@
             let uitkomstString = "<table>";
             for(let y = 0; y < alleaanbieders.length; y++){
               console.log(alleaanbieders[y].naam);
-              uitkomstString += `<tr><td>${alleaanbieders[y].naam}</td><td>${alleaanbieders[y].email}</td><td><input type="button" onclick="verwijderdieene(${alleaanbieders[y].id})" value="verwijder"></td></tr>`;
+              uitkomstString += `<tr><td>${alleaanbieders[y].naam}</td><td>${alleaanbieders[y].email}</td><td><input type="button" onclick="verwijderen(${alleaanbieders[y].id})" value="verwijder"></td></tr>`;
             }
             uitkomstString += "</table>";
             document.getElementById("delijst").innerHTML = uitkomstString;
@@ -50,6 +50,11 @@
     .catch(error => {
         // handle the error
     });
+      }
+      function verwijderen(aanbiederid){
+        let xhr = new XMLHttpRequest();
+        xhr.open("DELETE", url+"/verwijderfelixvoorbeeld/"+aanbiederid, true); // asynchroon
+        xhr.send(); 
       }
     </script>
   </head>
@@ -86,6 +91,6 @@
 
 
     </div>
-
+<input onclick="verwijderen()" value="verwijderen" type="button">
   </body>
 </html>
