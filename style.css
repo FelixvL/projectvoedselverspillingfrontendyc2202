@@ -3,8 +3,24 @@ body {
   text-align: center;
 }
 
-a,
-a:hover {
-  text-decoration: none;
+.header {
+  padding: 1rem;
+}
+
+.button,
+.button:hover {
   color: white;
+  text-decoration: none;
+}
+
+.form-container {
+  display: block;
+}
+
+.container {
+  padding: 0.7rem;
+}
+
+.button-container {
+  padding-top: 1rem;
 }
