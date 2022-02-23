@@ -1,0 +1,10 @@
+body {
+  align-items: center;
+  text-align: center;
+}
+
+a,
+a:hover {
+  text-decoration: none;
+  color: white;
+}
