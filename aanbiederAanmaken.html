@@ -1,0 +1,38 @@
+<!-- naam, email, wachtwoord (2 keer) -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <script>
+    function abc() {
+      let form = {};
+      form.naam = document.getElementById("name").value;
+      form.email = document.getElementById("email").value;
+      form.password = document.getElementById("password").value;
+      form.passwordRepeat = document.getElementById("password-repeat").value;
+      let data = JSON.stringify(form);
+      console.log(data);
+      xhr = new XMLHttpRequest();
+
+      xhr.open("POST", "http://localhost:8082/CreateAanbieder", true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(data);
+    }
+  </script>
+  <body>
+    <h1>Maak een account aan</h1>
+    <label for="name">Naam</label>
+    <input type="text" id="name" name="name" />
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" />
+    <label for="password">Wachtwoord</label>
+    <input type="password" id="password" name="password" />
+    <label for="password-repeat">Herhaal wachtwoord</label>
+    <input type="password" id="password-repeat" name="password-repeat" />
+    <button onclick="abc()" class="btn btn-dark" type="submit">Klik</button>
+  </body>
+</html>
