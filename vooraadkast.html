@@ -13,9 +13,9 @@
     function verstuurGegevens() {
       let form = {};
       form.name = document.getElementById("naam").value;
-      //   form.datum = document.getElementById("datum").value;
-      //   form.aantal = document.getElementById("aantal").value;
-      //   form.gewicht = document.getElementById("gewicht").value;
+      form.datum = document.getElementById("datum").value;
+      form.aantal = document.getElementById("aantal").value;
+      form.gewicht = document.getElementById("gewicht").value;
       let data = JSON.stringify(form);
       console.log(data);
       xhr = new XMLHttpRequest();
@@ -42,18 +42,16 @@
           <a class="nav-link disabled">Support</a>
           <button id="mijn-acount" type="button" class="btn btn-warning">Mijn Account</button>
         </div>
-      </div>
-    </div>
   </nav>
   <h1>Maak een nieuw item aan</h1>
   <label for="naam">Naam</label>
   <input type="text" id="naam" name="naam" />
-  <!-- <label for="email">Datum</label>
-    <input type="date" id="datum" name="datum" />
-    <label for="aantal">aantal</label>
-    <input type="text" id="aantal" name="aantal" />
-    <label for="gewicht">gewicht</label>
-    <input type="text" id="gewicht" name="gewicht" /> -->
+  <label for="email">Datum</label>
+  <input type="date" id="datum" name="datum" />
+  <label for="aantal">aantal</label>
+  <input type="text" id="aantal" name="aantal" />
+  <label for="gewicht">gewicht</label>
+  <input type="text" id="gewicht" name="gewicht" />
   <button onclick="verstuurGegevens()" class="btn btn-dark" type="submit">Klik</button>
 </body>
 
