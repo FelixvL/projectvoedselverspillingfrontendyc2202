@@ -17,6 +17,8 @@
           form.datum = document.getElementById("datum").value;
           form.aantal = document.getElementById("aantal").value;
           form.gewicht = document.getElementById("gewicht").value;
+          form.aangeboden = document.getElementById("aangeboden").checked;
+          console.log(document.getElementById("aangeboden").checked)
           let data = JSON.stringify(form);
           console.log(data);
           xhr = new XMLHttpRequest();
@@ -136,6 +138,10 @@
         <div class="input-group mb-3">
           <span class="input-group-text">gewicht</span>
           <input type="text" id="gewicht" class="form-control" placeholder="gewicht" aria-label="gewicht" aria-describedby="gewicht" name="gewicht">
+        </div>
+        <div class="input-group mb-3">
+          <input class="form-check-input" type="checkbox" id="aangeboden">
+          <label class="form-check-label" for="aangeboden">aangeboden</label>
         </div>
       </div>
       <div class="modal-footer">
