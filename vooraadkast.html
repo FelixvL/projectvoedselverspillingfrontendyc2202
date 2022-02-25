@@ -62,14 +62,15 @@
             document.getElementById("itemLijst").innerHTML = uitkomstString;
           }
         };
-        xhr.open("GET", url+"/getitemlist", true); // asynchroon
+        xhr.open("GET", url+"/getlistitembydate", true); // asynchroon
         xhr.send();       
       }
       function verwijderen(aanbiederid){
-        // let xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         console.log("delete id: " + aanbiederid);
-        // xhr.open("DELETE", url+"/verwijderfelixvoorbeeld/"+aanbiederid, true); // asynchroon
-        // xhr.send(); 
+        xhr.open("DELETE", url+"/DeleteItem/"+aanbiederid, false); // synchroon
+        xhr.send();
+        getlistitems();
       }
 
       function aanbieden(aanbiederid){
