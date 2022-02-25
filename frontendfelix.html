@@ -1,96 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script>
-      url = 'http://localhost:8082';
-      function meerderemanieren() {
-        console.log("hier staat iets");
-        // xmlhttprequest  // goed en oud
-        // ajax // via jquery // simple framework
-        // fetch // nieuw   stateless
-        let xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-          // http
-          if (this.readyState == 4) {
-            console.log(this.responseText);
-            let onzeAanvraag = JSON.parse(this.responseText);
-            document.getElementById("onsresultaat").innerHTML =
-              onzeAanvraag.tijdstip;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script>
+    url = 'http://localhost:8082';
+    function meerderemanieren() {
+      console.log("hier staat iets");
+      // xmlhttprequest  // goed en oud
+      // ajax // via jquery // simple framework
+      // fetch // nieuw   stateless
+      let xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        // http
+        if (this.readyState == 4) {
+          console.log(this.responseText);
+          let onzeAanvraag = JSON.parse(this.responseText);
+          document.getElementById("onsresultaat").innerHTML =
+            onzeAanvraag.tijdstip;
+        }
+      };
+      xhr.open("GET", url + "/returntype", true); // asynchroon
+      xhr.send();
+    }
+    function haalalleaop() {
+      let xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (this.readyState == 4) {
+          let alleaanbieders = JSON.parse(this.responseText);
+          let uitkomstString = "<table>";
+          for (let y = 0; y < alleaanbieders.length; y++) {
+            console.log(alleaanbieders[y].naam);
+            uitkomstString += `<tr><td>${alleaanbieders[y].naam}</td><td>${alleaanbieders[y].email}</td><td><input type="button" onclick="verwijderen(${alleaanbieders[y].id})" value="verwijder"></td></tr>`;
           }
-        };
-        xhr.open("GET", url+"/returntype", true); // asynchroon
-        xhr.send();
-      }
-      function haalalleaop(){
-        let xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-          if (this.readyState == 4) {
-            let alleaanbieders = JSON.parse(this.responseText);
-            let uitkomstString = "<table>";
-            for(let y = 0; y < alleaanbieders.length; y++){
-              console.log(alleaanbieders[y].naam);
-              uitkomstString += `<tr><td>${alleaanbieders[y].naam}</td><td>${alleaanbieders[y].email}</td><td><input type="button" onclick="verwijderen(${alleaanbieders[y].id})" value="verwijder"></td></tr>`;
-            }
-            uitkomstString += "</table>";
-            document.getElementById("delijst").innerHTML = uitkomstString;
-          }
-        };
-        xhr.open("GET", url+"/GetlistAanbieder", true); // asynchroon
-        xhr.send();       
-      }
-      function verwijderdieene(aid){
-        fetch(url+"/GetlistAanbieder")
+          uitkomstString += "</table>";
+          document.getElementById("delijst").innerHTML = uitkomstString;
+        }
+      };
+      xhr.open("GET", url + "/GetlistAanbieder", true); // asynchroon
+      xhr.send();
+    }
+    function verwijderdieene(aid) {
+      fetch(url + "/GetlistAanbieder")
         .then(response => {
           console.log(response.json())
         })
-    .catch(error => {
-        // handle the error
-    });
-      }
-      function verwijderen(aanbiederid){
-        let xhr = new XMLHttpRequest();
-        xhr.open("DELETE", url+"/verwijderfelixvoorbeeld/"+aanbiederid, true); // asynchroon
-        xhr.send(); 
-      }
-    </script>
-  </head>
-  <body>
-    <h1>Hello World</h1>
-    <nav>
-      <ul>
-        <li>Home</li>
-        <li>About</li>
-        <li>Contact</li>
-      </ul>
-    </nav>
-    <main>
-      <button onclick="meerderemanieren()">klik hier</button>
-      <div id="onsresultaat"></div>
-    </main>
-      <h5>Hello there</h5>
-      <ul>
-        <li>Address address 15</li>
-        <li>Postcode 334556</li>
-        <li>City</li>
-      </ul>
-      <h5>Contact</h5>
-      <ul>
-        <li>Email</li>
-        <li>Facebook</li>
-        <li>Twitter</li>
-        <li>Instagram</li>
-      </ul>
-    </footer>
-    <input type="button" onclick="haalalleaop()" value="Haal alle aanbieders op">
-    <div id="delijst">
+        .catch(error => {
+          // handle the error
+        });
+    }
+    function verwijderen(aanbiederid) {
+      let xhr = new XMLHttpRequest();
+      xhr.open("DELETE", url + "/verwijderfelixvoorbeeld/" + aanbiederid, true); // asynchroon
+      xhr.send();
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Hello World</h1>
+  <nav>
+    <ul>
+      <li>Home</li>
+      <li>About</li>
+      <li>Contact</li>
+    </ul>
+  </nav>
+  <main>
+    <button onclick="meerderemanieren()">klik hier</button>
+    <div id="onsresultaat"></div>
+  </main>
+  <h5>Hello there</h5>
+  <ul>
+    <li>Address address 15</li>
+    <li>Postcode 334556</li>
+    <li>City</li>
+  </ul>
+  <h5>Contact</h5>
+  <ul>
+    <li>Email</li>
+    <li>Facebook</li>
+    <li>Twitter</li>
+    <li>Instagram</li>
+  </ul>
+
+  <input type="button" onclick="haalalleaop()" value="Haal alle aanbieders op">
+  <div id="delijst">
 
 
 
-    </div>
-<input onclick="verwijderen()" value="verwijderen" type="button">
-  </body>
+  </div>
+  <input onclick="verwijderen()" value="verwijderen" type="button">
+</body>
+
 </html>
