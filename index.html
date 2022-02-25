@@ -23,16 +23,25 @@
         let xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
           if (this.readyState == 4) {
-            let submittedItems = JSON.parse(this.responseText);
-            let uitkomstString = "<table>";
-            for(let y = 0; y < submittedItems.length; y++){
-              console.log(submittedItems[y].naam);
-              uitkomstString += `<tr><td>${submittedItems[y].name}</td><td>${submittedItems[y].datum}</td>
-                                <td>${submittedItems[y].aantal}</td><td>${submittedItems[y].gewicht}</td><td>${submittedItems[y].foto}</td>
-                                <td><input type="button" onclick="reageren(${submittedItems[y].id})" value="reageer"></td></tr>`;
+            let alleItems = JSON.parse(this.responseText);
+            let uitkomstString = "";
+            for(let y = 0; y < alleItems.length; y++){
+              uitkomstString += `
+              <div class="col">
+              <div class="card">
+                <img src="kaas.jpg" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">${alleItems[y].name}  
+                    <button type="button" type="button" class="btn btn-success" onclick="aanbieden(${alleItems[y].id})">Reageer</button>
+                    </h5>
+                    <p class="card-text">
+                      houdbaarheidsdatum: ${alleItems[y].datum}
+                    </p>
+                  </div>
+                </div>
+              </div>`;
             }
-            uitkomstString += "<table>";
-            document.getElementById("itemssubmitted").innerHTML = uitkomstString;
+            document.getElementById("itemLijst").innerHTML = uitkomstString;
           }
         };
         xhr.open("GET", url+"/getaangebodenitemlist", true); // asynchroon
@@ -47,7 +56,11 @@
     <button class="button btn btn-light" type="submit">
       <a href="aanbiederAanmaken.html">Account maken</a>
     </button>
-    <div id='itemssubmitted'></div>
+    <div class="container mb-3">
+      <div id="itemLijst" class="row row-cols-2 row-cols-md-3 g-4">
+        
+      </div>
+    </div>
   </body>
   <script>
     getSubmittedItems();
