@@ -47,6 +47,33 @@
         xhr.open("GET", url+"/getaangebodenitemlist", true); // asynchroon
         xhr.send();    
       }
+
+      function getSubmittedItemsFetch(){
+        fetch(url+"/getaangebodenitemlist")
+        .then((response)=>{
+          return response.json();
+        })
+        .then((data)=>{
+          let uitkomstString="";
+          for(let y= 0; y<data.length; y++){
+            uitkomstString += `
+            <div class="col">
+              <div class="card">
+                <img src="kaas.jpg" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">${data[y].name}  
+                    <button type="button" type="button" class="btn btn-success" onclick="aanbieden(${data[y].id})">Reageer</button>
+                    </h5>
+                    <p class="card-text">
+                      houdbaarheidsdatum: ${data[y].datum}
+                    </p>
+                  </div>
+                </div>
+              </div>`;
+          }
+          document.getElementById("itemLijst").innerHTML = uitkomstString;
+        })
+      }
       </script>
 
 
@@ -63,6 +90,6 @@
     </div>
   </body>
   <script>
-    getSubmittedItems();
+    getSubmittedItemsFetch();
   </script>
 </html>

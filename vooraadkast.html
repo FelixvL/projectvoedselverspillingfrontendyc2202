@@ -31,7 +31,6 @@
       xhr.setRequestHeader("Content-Type", "application/json");
       xhr.send(data);
       setTimeout(function () { getlistitems() }, 100);
-
     }
 
     function getlistitems() {
@@ -49,7 +48,7 @@
                   <div class="card-body">
                     <h5 class="card-title">${alleItems[y].name}  
                     <button type="button" type="button" class="btn btn-success" onclick="aanbieden(${alleItems[y].id})">aanbieden</button>
-                    <button type="button" type="button" class="btn btn-danger" onclick="verwijderen(${alleItems[y].id})">
+                    <button type="button" type="button" class="btn btn-danger" onclick="verwijderMetFetch(${alleItems[y].id})">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                         <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
@@ -69,11 +68,13 @@
       xhr.open("GET", url + "/getlistitembydate", true); // asynchroon
       xhr.send();
     }
+
     function verwijderen(aanbiederid) {
-      // let xhr = new XMLHttpRequest();
+      let xhr = new XMLHttpRequest();
       console.log("delete id: " + aanbiederid);
-      // xhr.open("DELETE", url+"/verwijderfelixvoorbeeld/"+aanbiederid, true); // asynchroon
-      // xhr.send(); 
+      xhr.open("DELETE", url + "/DeleteItem/" + aanbiederid, false); // synchroon
+      xhr.send();
+      getListItemsFetch();
     }
 
     function aanbieden(aanbiederid) {
@@ -82,6 +83,78 @@
       // xhr.open("DELETE", url+"/verwijderfelixvoorbeeld/"+aanbiederid, true); // asynchroon
       // xhr.send(); 
     }
+
+    function verstuurGegevensFetch() {
+      let form = {};
+      form.name = document.getElementById("naam").value;
+      form.datum = document.getElementById("datum").value;
+      form.aantal = document.getElementById("aantal").value;
+      form.gewicht = document.getElementById("gewicht").value;
+      form.aangeboden = document.getElementById("aangeboden").checked;
+      let data = JSON.stringify(form);
+      fetch(url + "/CreateItem", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: data
+      })
+        .then(() => {
+          getListItemsFetch();
+        })
+        .catch(error => {
+          alert('Er is iets fouts gegaan');
+        });
+    }
+
+    function getListItemsFetch() {
+      fetch(url + "/getlistitembydate")
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          let uitkomstString = "";
+          for (let y = 0; y < data.length; y++) {
+            uitkomstString += `
+              <div class="col">
+              <div class="card">
+                <img src="kaas.jpg" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">${data[y].name}  
+                    <button type="button" type="button" class="btn btn-success" onclick="aanbieden(${data[y].id})">aanbieden</button>
+                    <button type="button" type="button" class="btn btn-danger" onclick="verwijderMetFetch(${data[y].id})">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                      </svg>
+                    </button> 
+                    </h5>
+                    <p class="card-text">
+                      houdbaarheidsdatum: ${data[y].datum}
+                    </p>
+                  </div>
+                </div>
+              </div>`;
+          }
+          document.getElementById("itemLijst").innerHTML = uitkomstString;
+        })
+    }
+
+    function verwijderMetFetch(aanbiederid) {
+      fetch(url + "/DeleteItem/" + aanbiederid, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+        .then(() => {
+          getListItemsFetch();
+        })
+        .catch(error => {
+          alert('Er is iets fouts gegaan');
+        });
+    }
+
   </script>
 </head>
 
@@ -156,7 +229,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button onclick="verstuurGegevens()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save
+          <button onclick="verstuurGegevensFetch()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save
             changes</button>
         </div>
       </div>
@@ -164,7 +237,8 @@
   </div>
 </body>
 <script>
-  getlistitems();
+  // getlistitems();
+  getListItemsFetch();
 </script>
 
 </html>
