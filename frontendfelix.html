@@ -56,6 +56,14 @@
         xhr.open("DELETE", url+"/verwijderfelixvoorbeeld/"+aanbiederid, true); // asynchroon
         xhr.send(); 
       }
+      function toonLS(){
+        var x = localStorage.getItem("kiesikzelf");
+        console.log(x);
+      }
+      function opslaaninLS(){
+        var mijngegevens = document.getElementById("ditwilikbewaren").value;
+        localStorage.setItem('kiesikzelf', mijngegevens);
+      }
     </script>
   </head>
   <body>
@@ -92,5 +100,9 @@
 
     </div>
 <input onclick="verwijderen()" value="verwijderen" type="button">
+<hr><hr>
+    <input type="text" id="ditwilikbewaren">
+    <button onclick="opslaaninLS()">opslaan</button>
+    <button onclick="toonLS()" >opvragen</button>
   </body>
 </html>
